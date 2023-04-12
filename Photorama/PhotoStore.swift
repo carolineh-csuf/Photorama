@@ -36,6 +36,14 @@ class PhotoStore {
             //            } else {
             //                print("Unexprected error with the request")
             //            }
+            guard let httpURLResponse = response as? HTTPURLResponse else {
+                print("fetchInterestingPhotos Invalid response")
+                return
+            }
+            
+            print("fetchInterestingPhotos Status code: \(httpURLResponse.statusCode)")
+            print("fetchInterestingPhotos All header fields: \(httpURLResponse.allHeaderFields)")
+            print()
             
             let result = self.processPhotosRequest(data: data, error: error)
             OperationQueue.main.addOperation {
@@ -43,8 +51,35 @@ class PhotoStore {
                 completion(result)
             }
         }
+        
         task.resume()
     }
+    
+    
+   func fetchRecentPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
+    let url = FlickrAPI.recentPhotoURL
+    let request = URLRequest(url: url)
+    let task = session.dataTask(with: request) {
+        (data, response, error) in
+        
+        guard let httpURLResponse = response as? HTTPURLResponse else {
+            print("fetchRecentPhotos Invalid response")
+            return
+        }
+        
+        print("fetchRecentPhotos Status code: \(httpURLResponse.statusCode)")
+        print("fetchRecentPhotos All header fields: \(httpURLResponse.allHeaderFields)")
+        print()
+        
+        let result = self.processPhotosRequest(data: data, error: error)
+        OperationQueue.main.addOperation {
+            //Adding a completion handler
+            completion(result)
+        }
+    }
+    
+    task.resume()
+}
     
     //Processing the web service data
     private func processPhotosRequest(data: Data?,
@@ -68,6 +103,14 @@ class PhotoStore {
         let task = session.dataTask(with: request) {
             (data, response, error) in
         
+//            guard let httpURLResponse = response as? HTTPURLResponse else {
+//                print("fetchImage: Invalid response")
+//                return
+//            }
+//
+//            print("fetchImage Status code: \(httpURLResponse.statusCode)")
+//            print("fetchImage All header fields: \(httpURLResponse.allHeaderFields)")
+
             let result =
             self.processImageRequest(data: data, error: error)
             OperationQueue.main.addOperation {

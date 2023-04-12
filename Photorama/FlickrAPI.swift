@@ -8,7 +8,8 @@
 import Foundation
 
 enum EndPoint: String {
-    case interestinghotos = "flickr.interestingness.getList"
+    case interestingPhotos = "flickr.interestingness.getList"
+    case recentPhotos = "flickr.photos.getRecent"
 }
 //Defining the response structures
 struct FlickrResponse: Codable {
@@ -68,7 +69,12 @@ struct FlickrAPI {
     
     // Exposing a URL for interesting photos
     static var interestingPhotoURL: URL {
-        return flickrURL(endPoint: .interestinghotos, parameters: ["extras": "url_z,date_taken"])
+        return flickrURL(endPoint: .interestingPhotos, parameters: ["extras": "url_z,date_taken"])
+    }
+    
+    // Exposing a URL for recent photos
+    static var recentPhotoURL: URL {
+        return flickrURL(endPoint: .recentPhotos, parameters: ["extras": "url_z,date_taken"])
     }
     
     
