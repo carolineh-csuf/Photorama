@@ -14,11 +14,13 @@ enum PhotoError: Error {
 
 class PhotoStore {
     
+    let imageStore = ImageStore()
+    
     //Adding a URLSession property
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
-    }()
+    }()    
     
     
     func fetchInterestingPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
@@ -92,6 +94,16 @@ class PhotoStore {
     }
     
     func fetchImage(for photo: Photo, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        
+        //Using the image store to cache images
+        let photoKey = photo.photoID
+        if let image = imageStore.image(forKey: photoKey) {
+            OperationQueue.main.addOperation {
+                completion(.success(image))
+            }
+            return
+        }
+        
         guard let photoURL = photo.remoteURL else {
             completion(.failure(PhotoError.missingImageURL))
             return
@@ -113,6 +125,11 @@ class PhotoStore {
 
             let result =
             self.processImageRequest(data: data, error: error)
+            
+            if case let .success(image) = result {
+                self.imageStore.setImage(image, forKey: photoKey)
+            }
+            
             OperationQueue.main.addOperation {
                 completion(result)
             }
