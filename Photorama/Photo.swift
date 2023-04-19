@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class Photo: Codable {
 
     let title: String
@@ -16,7 +15,6 @@ class Photo: Codable {
     let dateTaken: Date
 
     //Adding coding keys
-
  //   caution : enum name is Caption
       enum CodingKeys: String, CodingKey {
         case title

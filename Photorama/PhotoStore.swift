@@ -137,6 +137,7 @@ class PhotoStore {
         task.resume()
     }
     
+    // Processing the image request data
     private func processImageRequest(data: Data?, error: Error?) -> Result<UIImage, Error> {
         guard let imageData = data,
               let image = UIImage(data: imageData) else {

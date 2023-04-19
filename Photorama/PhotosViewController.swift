@@ -14,10 +14,6 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
     
     var store: PhotoStore!
     let photoDataSource = PhotoDataSource()
-    //    required init?(coder aDecoder: NSCoder) {
-    //       // self.username = "Anonymous"
-    //        super.init(coder: aDecoder)
-    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,20 +29,16 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
             switch photosResult {
                 
             case let .success(photos):
-                print("Successfully found \(photos.count) InterestingPhotos.")
+                print("Successfully found \(photos.count) Interesting Photos.")
                 //                if let firstPhoto = photos.first {
                 //                    self.updateImageView(for: firstPhoto)
                 //                }
-               // self.photoDataSource.photos = photos
                 self.photoDataSource.photos = photos
             case let .failure(error):
                 print("Error fetching interesting photos: \(error)")
-                //self.photoDataSource.photos.removeAll()
                 self.photoDataSource.photos.removeAll()
             }
-           // self.collectionView.reloadSections(IndexSet(integer: 0))
-           // self.collectionView.reloadSections(IndexSet(integer: 0))
-            self.collectionView.reloadData()
+            self.collectionView.reloadSections(IndexSet(integer: 0))
         }
         
 //        store.fetchRecentPhotos {
@@ -123,5 +115,11 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+}
+
+extension PhotosViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width/4.15, height: collectionView.frame.size.height/7)
+    }
 }
 

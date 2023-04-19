@@ -98,7 +98,6 @@ struct FlickrAPI {
         } catch {
             return .failure(error)
         }
-        
     }
     
     
