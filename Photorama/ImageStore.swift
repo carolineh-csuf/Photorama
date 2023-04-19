@@ -1,5 +1,8 @@
-// 
-//  Copyright © 2020 Big Nerd Ranch
+//
+//  PhotoInfoViewController.swift
+//  Photorama
+//
+//  Created by csuftitan on 4/11/23.
 //
 
 import UIKit
