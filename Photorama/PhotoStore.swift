@@ -59,21 +59,29 @@ class PhotoStore {
             print()
             
             //let result = self.processPhotosRequest(data: data, error: error)
-            var result = self.processPhotosRequest(data: data, error: error)
-            if case .success = result {
-                do {
-                    try self.persistentContainer.viewContext.save()
-                } catch {
-                    result = .failure(error)
+//            var result = self.processPhotosRequest(data: data, error: error)
+//            if case .success = result {
+//                do {
+//                    try self.persistentContainer.viewContext.save()
+//                } catch {
+//                    result = .failure(error)
+//                }
+//            }
+//
+//            OperationQueue.main.addOperation {
+//                //Adding a completion handler
+//                completion(result)
+//            }
+            
+            self.processPhotosRequest(data: data, error: error) {
+                (result) in
+
+                OperationQueue.main.addOperation {
+                    completion(result)
                 }
             }
             
-            OperationQueue.main.addOperation {
-                //Adding a completion handler
-                completion(result)
-            }
         }
-        
         task.resume()
     }
     
@@ -93,10 +101,17 @@ class PhotoStore {
         print("fetchRecentPhotos All header fields: \(httpURLResponse.allHeaderFields)")
         print()
         
-        let result = self.processPhotosRequest(data: data, error: error)
-        OperationQueue.main.addOperation {
-            //Adding a completion handler
-            completion(result)
+//        let result = self.processPhotosRequest(data: data, error: error)
+//        OperationQueue.main.addOperation {
+//            //Adding a completion handler
+//            completion(result)
+//        }
+        self.processPhotosRequest(data: data, error: error) {
+            (result) in
+
+            OperationQueue.main.addOperation {
+                completion(result)
+            }
         }
     }
     
@@ -105,43 +120,64 @@ class PhotoStore {
     
     //Processing the web service data
     private func processPhotosRequest(data: Data?,
-                                      error: Error?) -> Result<[Photo], Error> {
+    //                                  error: Error?) -> Result<[Photo], Error> {
+                                      error: Error?, completion: @escaping (Result<[Photo],Error>) -> Void) {
         guard let jsonData = data else {
-            return .failure(error!)
+           // return .failure(error!)
+            completion(.failure(error!))
+            return
         }
         // return FlickrAPI.photos(fromJSON: jsonData)
         
-        let context = persistentContainer.viewContext
+        //let context = persistentContainer.viewContext
         
-        switch FlickrAPI.photos(fromJSON: jsonData) {
-        case let .success(flickrPhotos):
-            let photos = flickrPhotos.map { flickrPhoto -> Photo in
-                
-                let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
-                let predicate = NSPredicate(
-                    format: "\(#keyPath(Photo.photoID)) == \(flickrPhoto.photoID)")
-                fetchRequest.predicate = predicate
-                var fetchedPhotos: [Photo]?
-                context.performAndWait {
-                    fetchedPhotos = try? fetchRequest.execute()
+        persistentContainer.performBackgroundTask { (context) in
+            
+            switch FlickrAPI.photos(fromJSON: jsonData) {
+            case let .success(flickrPhotos):
+                let photos = flickrPhotos.map { flickrPhoto -> Photo in
+                    
+                    let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+                    let predicate = NSPredicate(
+                        format: "\(#keyPath(Photo.photoID)) == \(flickrPhoto.photoID)")
+                    fetchRequest.predicate = predicate
+                    var fetchedPhotos: [Photo]?
+                    context.performAndWait {
+                        fetchedPhotos = try? fetchRequest.execute()
+                    }
+                    if let existingPhoto = fetchedPhotos?.first {
+                        return existingPhoto
+                    }
+                    
+                    var photo: Photo!
+                    context.performAndWait {
+                        photo = Photo(context: context)
+                        photo.title = flickrPhoto.title
+                        photo.photoID = flickrPhoto.photoID
+                        photo.remoteURL = flickrPhoto.remoteURL
+                        photo.dateTaken = flickrPhoto.dateTaken
+                    }
+                    return photo
                 }
-                if let existingPhoto = fetchedPhotos?.first {
-                    return existingPhoto
-                }    
                 
-                var photo: Photo!
-                context.performAndWait {
-                    photo = Photo(context: context)
-                    photo.title = flickrPhoto.title
-                    photo.photoID = flickrPhoto.photoID
-                    photo.remoteURL = flickrPhoto.remoteURL
-                    photo.dateTaken = flickrPhoto.dateTaken
+                do {
+                    try context.save()
+                } catch {
+                    print("Error saving to Core Data: \(error).")
+                    completion(.failure(error))
+                    return
                 }
-                return photo
+                //return .success(photos)
+              //completion(.success(photos))
+                
+                let photoIDs = photos.map { $0.objectID }
+                let viewContext = self.persistentContainer.viewContext
+                let viewContextPhotos = photoIDs.map { viewContext.object(with: $0) } as! [Photo]
+                completion(.success(viewContextPhotos))
+            case let .failure(error):
+                //return .failure(error)
+                completion(.failure(error))
             }
-            return .success(photos)
-        case let .failure(error):
-            return .failure(error)
         }
     }
     
@@ -219,6 +255,23 @@ class PhotoStore {
                 let allPhotos = try viewContext.fetch(fetchRequest)
                 completion(.success(allPhotos))
 
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // fetch all tags
+    func fetchAllTags(completion: @escaping (Result<[Tag], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+        let sortByName = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
+        fetchRequest.sortDescriptors = [sortByName]
+        
+        let viewContext = persistentContainer.viewContext
+        viewContext.perform {
+            do {
+                let allTags = try fetchRequest.execute()
+                completion(.success(allTags))
             } catch {
                 completion(.failure(error))
             }
