@@ -64,7 +64,6 @@
 		7A2AD00429E4834300BE53EF = {
 			isa = PBXGroup;
 			children = (
-				7A49FEA229F0E48D0066F9F6 /* TagDataSource.swift */,
 				7A2AD00F29E4834300BE53EF /* Photorama */,
 				7A2AD00E29E4834300BE53EF /* Products */,
 			);
@@ -81,6 +80,7 @@
 		7A2AD00F29E4834300BE53EF /* Photorama */ = {
 			isa = PBXGroup;
 			children = (
+				7A49FEA229F0E48D0066F9F6 /* TagDataSource.swift */,
 				7A49FE9E29F0E1E80066F9F6 /* Photo+CoreDataProperties.swift */,
 				7AE9AA4229F0676300531CCC /* Photo+CoreDataClass.swift */,
 				7A2AD02629E4C57400BE53EF /* PhotoStore.swift */,
