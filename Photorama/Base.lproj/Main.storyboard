@@ -72,9 +72,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="249" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHy-u6-3ij">
-                                <rect key="frame" x="0.0" y="103" width="430" height="716"/>
+                                <rect key="frame" x="0.0" y="150" width="430" height="669"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQe-rQ-Gsw">
+                                <rect key="frame" x="-1" y="103" width="432" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Ncc-4T-RU8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AfH-ck-py4">
                                 <rect key="frame" x="-1" y="819" width="431" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -89,10 +98,16 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NVD-s8-VQc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vQe-rQ-Gsw" firstAttribute="top" secondItem="NVD-s8-VQc" secondAttribute="top" id="Aqw-4C-OFl"/>
+                            <constraint firstItem="vQe-rQ-Gsw" firstAttribute="centerX" secondItem="NVD-s8-VQc" secondAttribute="centerX" id="BBu-qm-ddn"/>
+                            <constraint firstItem="NVD-s8-VQc" firstAttribute="leading" secondItem="vQe-rQ-Gsw" secondAttribute="leading" constant="1" id="RuU-zH-e9Q"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="MpV-JT-xu5"/>
                     <connections>
                         <outlet property="imageView" destination="oHy-u6-3ij" id="aNV-EQ-puW"/>
+                        <outlet property="viewCountLabel" destination="vQe-rQ-Gsw" id="p5D-Tp-Ayn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="evX-Dw-bEJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

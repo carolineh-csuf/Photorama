@@ -11,6 +11,8 @@ class PhotoInfoViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     
+    @IBOutlet weak var viewCountLabel: UILabel!
+    
     var photo: Photo! {
         didSet {
             navigationItem.title = photo.title
@@ -27,6 +29,17 @@ class PhotoInfoViewController: UIViewController {
             switch result {
             case let .success(image):
                 self.imageView.image = image
+                self.viewCountLabel.text = "Views: \(self.photo.viewCount)"
+                
+                // Increment the view count
+                self.photo.viewCount += 1
+                
+                // Save the managed object context to persist the view count increment
+                do {
+                    try self.photo.managedObjectContext?.save()
+                } catch {
+                    print("Error saving view count increment: \(error)")
+                }
             case let .failure(error):
                 print("Error fetching image for photo: \(error)")
             }
