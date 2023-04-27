@@ -8,26 +8,41 @@
 import UIKit
 
 class PhotoDataSource: NSObject, UICollectionViewDataSource {
-
+    
+    var showFavorites = false
+    
+   // private var allPhotos: [Photo] = []
+   // private var favoritePhotos: [Photo] = []
+    
     var photos = [Photo]()
+    
+    func favoritePhotos() -> [Photo] {
+        var index = 0
+        return photos.filter {
 
-        func collectionView(_ collectionView: UICollectionView,
-                            numberOfItemsInSection section: Int) -> Int {
-            return photos.count
+            print("photo \(index) \($0.title)  isFavorite \($0.isFavorite)")
+            index += 1
+            return $0.isFavorite
         }
-
-        func collectionView(_ collectionView: UICollectionView,
-                            cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-            let identifier = "PhotoCollectionViewCell"
-            let cell =
-                collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCollectionViewCell
-            
-            let photo = photos[indexPath.row]
-            cell.photoDescription = photo.title
-            cell.update(displaying: nil)
-
-            return cell
-        }
+     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let identifier = "PhotoCollectionViewCell"
+        let cell =
+        collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCollectionViewCell
+        
+        let photo = photos[indexPath.row]
+        cell.photoDescription = photo.title
+        cell.update(displaying: nil)
+        
+        return cell
+    }
     
 }

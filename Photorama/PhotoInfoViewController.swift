@@ -13,12 +13,39 @@ class PhotoInfoViewController: UIViewController {
     
     @IBOutlet weak var viewCountLabel: UILabel!
     
+    @IBOutlet weak var favoriteBarButton: UIBarButtonItem!
+    
     var photo: Photo! {
         didSet {
             navigationItem.title = photo.title
         }
     }
     var store: PhotoStore!
+    
+    
+    @IBAction func toggleFavorite(_ sender: UIBarButtonItem) {
+     guard let photo = photo else { return }
+        
+        // Toggle the favorite status
+        photo.isFavorite = !photo.isFavorite
+        
+        do {
+            try self.photo.managedObjectContext?.save()
+        } catch {
+            print("Error saving favorite status: \(error)")
+        }
+        
+        updateFavoriteBarButton()
+    }
+    
+    func updateFavoriteBarButton() {
+        guard let photo = photo else { return }
+        
+        // Set the favorite status of the photo
+        let favoriteImage = photo.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        favoriteBarButton.image = favoriteImage
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +57,7 @@ class PhotoInfoViewController: UIViewController {
             case let .success(image):
                 self.imageView.image = image
                 self.viewCountLabel.text = "Views: \(self.photo.viewCount)"
+                self.favoriteBarButton.isSelected = self.photo.isFavorite
                 
                 // Increment the view count
                 self.photo.viewCount += 1

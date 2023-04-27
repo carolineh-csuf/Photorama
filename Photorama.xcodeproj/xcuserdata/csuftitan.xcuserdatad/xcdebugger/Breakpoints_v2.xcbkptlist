@@ -14,10 +14,58 @@
             filePath = "Photorama/PhotoDataSource.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9387507A-BDFF-4E7A-A629-FF1F238CBF9B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Photorama/PhotosViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "updateDataSource()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9387507A-BDFF-4E7A-A629-FF1F238CBF9B - efcb9019bba677fe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Photorama.PhotosViewController.updateDataSource() -&gt; ()"
+                  moduleName = "Photorama"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/csuftitan/Desktop/CPSC411-02/Photorama/Photorama/PhotosViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "34">
+               </Location>
+               <Location
+                  uuid = "9387507A-BDFF-4E7A-A629-FF1F238CBF9B - 2fdc1a7d9a95fd91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;Photorama.Photo&gt;, Swift.Error&gt;) -&gt; () in Photorama.PhotosViewController.updateDataSource() -&gt; ()"
+                  moduleName = "Photorama"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/csuftitan/Desktop/CPSC411-02/Photorama/Photorama/PhotosViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "146">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
