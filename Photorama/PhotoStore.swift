@@ -31,7 +31,7 @@ class PhotoStore {
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
-    }()    
+    }()
     
     
     func fetchInterestingPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
@@ -59,71 +59,73 @@ class PhotoStore {
             print()
             
             //let result = self.processPhotosRequest(data: data, error: error)
-//            var result = self.processPhotosRequest(data: data, error: error)
-//            if case .success = result {
-//                do {
-//                    try self.persistentContainer.viewContext.save()
-//                } catch {
-//                    result = .failure(error)
-//                }
-//            }
-//
-//            OperationQueue.main.addOperation {
-//                //Adding a completion handler
-//                completion(result)
-//            }
+            //            var result = self.processPhotosRequest(data: data, error: error)
+            //            if case .success = result {
+            //                do {
+            //                    try self.persistentContainer.viewContext.save()
+            //                } catch {
+            //                    result = .failure(error)
+            //                }
+            //            }
+            //
+            //            OperationQueue.main.addOperation {
+            //                //Adding a completion handler
+            //                completion(result)
+            //            }
             
             self.processPhotosRequest(data: data, error: error) {
                 (result) in
-
+                
                 OperationQueue.main.addOperation {
                     completion(result)
                 }
             }
             
         }
+        //Tasks are always created in the suspended state,
+        //so calling resume() on the task will start the web service request.
         task.resume()
     }
     
     
-   func fetchRecentPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
-    let url = FlickrAPI.recentPhotoURL
-    let request = URLRequest(url: url)
-    let task = session.dataTask(with: request) {
-        (data, response, error) in
-        
-        guard let httpURLResponse = response as? HTTPURLResponse else {
-            print("fetchRecentPhotos Invalid response")
-            return
-        }
-        
-        print("fetchRecentPhotos Status code: \(httpURLResponse.statusCode)")
-        print("fetchRecentPhotos All header fields: \(httpURLResponse.allHeaderFields)")
-        print()
-        
-//        let result = self.processPhotosRequest(data: data, error: error)
-//        OperationQueue.main.addOperation {
-//            //Adding a completion handler
-//            completion(result)
-//        }
-        self.processPhotosRequest(data: data, error: error) {
-            (result) in
-
-            OperationQueue.main.addOperation {
-                completion(result)
+    func fetchRecentPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
+        let url = FlickrAPI.recentPhotoURL
+        let request = URLRequest(url: url)
+        let task = session.dataTask(with: request) {
+            (data, response, error) in
+            
+            guard let httpURLResponse = response as? HTTPURLResponse else {
+                print("fetchRecentPhotos Invalid response")
+                return
+            }
+            
+            print("fetchRecentPhotos Status code: \(httpURLResponse.statusCode)")
+            print("fetchRecentPhotos All header fields: \(httpURLResponse.allHeaderFields)")
+            print()
+            
+            //        let result = self.processPhotosRequest(data: data, error: error)
+            //        OperationQueue.main.addOperation {
+            //            //Adding a completion handler
+            //            completion(result)
+            //        }
+            self.processPhotosRequest(data: data, error: error) {
+                (result) in
+                
+                OperationQueue.main.addOperation {
+                    completion(result)
+                }
             }
         }
+        
+        task.resume()
     }
-    
-    task.resume()
-}
     
     //Processing the web service data
     private func processPhotosRequest(data: Data?,
-    //                                  error: Error?) -> Result<[Photo], Error> {
+                                      //                                  error: Error?) -> Result<[Photo], Error> {
                                       error: Error?, completion: @escaping (Result<[Photo],Error>) -> Void) {
         guard let jsonData = data else {
-           // return .failure(error!)
+            // return .failure(error!)
             completion(.failure(error!))
             return
         }
@@ -168,7 +170,7 @@ class PhotoStore {
                     return
                 }
                 //return .success(photos)
-              //completion(.success(photos))
+                //completion(.success(photos))
                 
                 let photoIDs = photos.map { $0.objectID }
                 let viewContext = self.persistentContainer.viewContext
@@ -206,15 +208,15 @@ class PhotoStore {
         
         let task = session.dataTask(with: request) {
             (data, response, error) in
-        
-//            guard let httpURLResponse = response as? HTTPURLResponse else {
-//                print("fetchImage: Invalid response")
-//                return
-//            }
-//
-//            print("fetchImage Status code: \(httpURLResponse.statusCode)")
-//            print("fetchImage All header fields: \(httpURLResponse.allHeaderFields)")
-
+            
+            //            guard let httpURLResponse = response as? HTTPURLResponse else {
+            //                print("fetchImage: Invalid response")
+            //                return
+            //            }
+            //
+            //            print("fetchImage Status code: \(httpURLResponse.statusCode)")
+            //            print("fetchImage All header fields: \(httpURLResponse.allHeaderFields)")
+            
             let result =
             self.processImageRequest(data: data, error: error)
             
@@ -248,13 +250,13 @@ class PhotoStore {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)
         fetchRequest.sortDescriptors = [sortByDateTaken]
-
+        
         let viewContext = persistentContainer.viewContext
         viewContext.perform {
             do {
                 let allPhotos = try viewContext.fetch(fetchRequest)
                 completion(.success(allPhotos))
-
+                
             } catch {
                 completion(.failure(error))
             }

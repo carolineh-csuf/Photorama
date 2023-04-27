@@ -12,6 +12,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
     @IBOutlet var collectionView: UICollectionView!
         //  @IBOutlet private var imageView: UIImageView!
     
+    //The store is a dependency of the PhotosViewController.Use property injection to give the PhotosViewController its store dependency.Open SceneDelegate.swift and use property injection to give the PhotosViewController an instance of PhotoStore.
     var store: PhotoStore!
     let photoDataSource = PhotoDataSource()
     
