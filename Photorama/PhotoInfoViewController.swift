@@ -22,6 +22,7 @@ class PhotoInfoViewController: UIViewController {
     }
     var store: PhotoStore!
     
+    var favoriteDidTap: (() -> Void)?
     
     @IBAction func toggleFavorite(_ sender: UIBarButtonItem) {
      guard let photo = photo else { return }
@@ -44,6 +45,7 @@ class PhotoInfoViewController: UIViewController {
         // Set the favorite status of the photo
         let favoriteImage = photo.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         favoriteBarButton.image = favoriteImage
+        favoriteDidTap?()
     }
     
     
@@ -56,8 +58,8 @@ class PhotoInfoViewController: UIViewController {
             switch result {
             case let .success(image):
                 self.imageView.image = image
-                self.viewCountLabel.text = "Views: \(self.photo.viewCount)"
-                self.favoriteBarButton.isSelected = self.photo.isFavorite
+                self.viewCountLabel.text = "Viewed: \(self.photo.viewCount)"
+                self.favoriteBarButton.image = self.photo.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
                 
                 // Increment the view count
                 self.photo.viewCount += 1

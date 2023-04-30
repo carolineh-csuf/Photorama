@@ -20,7 +20,7 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
         var index = 0
         return photos.filter {
 
-            print("photo \(index) \($0.title)  isFavorite \($0.isFavorite)")
+            print("photo \(index) \($0.title ?? "N/A")  isFavorite \($0.isFavorite)")
             index += 1
             return $0.isFavorite
         }

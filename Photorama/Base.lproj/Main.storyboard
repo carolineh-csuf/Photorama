@@ -56,7 +56,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="ovI-Wm-VA2">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="n4h-wl-w4p">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="n4h-wl-w4p">
                             <rect key="frame" x="133.66666666666666" y="5.6666666666666679" width="162.99999999999997" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -108,7 +108,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="WQR-Ar-hp0"/>
-                                    <barButtonItem title="Item" image="heart" catalog="system" id="bPp-9m-15b">
+                                    <barButtonItem title="Item" image="heart" catalog="system" style="plain" id="bPp-9m-15b">
                                         <connections>
                                             <action selector="toggleFavorite:" destination="ORA-Kg-tXj" id="NrI-bg-uQ4"/>
                                         </connections>

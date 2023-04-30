@@ -132,6 +132,9 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
                 let destinationVC = segue.destination as! PhotoInfoViewController
                 destinationVC.photo = photo
                 destinationVC.store = store
+                destinationVC.favoriteDidTap = { [weak self] in
+                    self?.didUpdateFavorite()
+                }
             }
         default:
             preconditionFailure("Unexpected segue identifier.")
@@ -150,6 +153,20 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    func didUpdateFavorite() {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            self.updateDataSource()
+            photoDataSource.showFavorites = false
+        case 1:
+            photoDataSource.showFavorites = true
+            photoDataSource.photos = photoDataSource.favoritePhotos()
+        default:
+            break
+        }
+
+        collectionView.reloadData()
+    }
 }
 
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
@@ -157,4 +174,3 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.frame.size.width/4.15, height: collectionView.frame.size.height/7)
     }
 }
-
