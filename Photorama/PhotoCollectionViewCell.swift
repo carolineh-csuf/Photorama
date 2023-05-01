@@ -11,8 +11,15 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var spinner: UIActivityIndicatorView!
-    
+    @IBOutlet weak var ViewCountLabel: UILabel!
+  
     var photoDescription: String?
+    
+    override func layoutSubviews() {
+            super.layoutSubviews()
+            layer.borderWidth = 1.0
+        layer.borderColor = UIColor.secondaryLabel.cgColor
+        }
     
     override var isAccessibilityElement: Bool {
         get {

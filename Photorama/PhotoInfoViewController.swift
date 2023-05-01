@@ -23,6 +23,7 @@ class PhotoInfoViewController: UIViewController {
     var store: PhotoStore!
     
     var favoriteDidTap: (() -> Void)?
+    var didViewed: (() -> Void)?
     
     @IBAction func toggleFavorite(_ sender: UIBarButtonItem) {
      guard let photo = photo else { return }
@@ -58,12 +59,13 @@ class PhotoInfoViewController: UIViewController {
             switch result {
             case let .success(image):
                 self.imageView.image = image
-                self.viewCountLabel.text = "Viewed: \(self.photo.viewCount)"
+                self.viewCountLabel.text = "Viewed: \(self.photo.viewCount + 1)"
                 self.favoriteBarButton.image = self.photo.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-                
+
                 // Increment the view count
                 self.photo.viewCount += 1
-                
+                self.didViewed?()
+
                 // Save the managed object context to persist the view count increment
                 do {
                     try self.photo.managedObjectContext?.save()

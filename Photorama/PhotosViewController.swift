@@ -99,6 +99,11 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
     //        }
     //    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let photo = photoDataSource.photos[indexPath.row]
         
@@ -134,6 +139,9 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
                 destinationVC.store = store
                 destinationVC.favoriteDidTap = { [weak self] in
                     self?.didUpdateFavorite()
+//                    destinationVC.didViewed = { [weak self] in
+//                        self?.didViewed()
+//                    }
                 }
             }
         default:
@@ -167,10 +175,11 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
 
         collectionView.reloadData()
     }
+        
 }
 
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width/4.15, height: collectionView.frame.size.height/7)
+        return CGSize(width: collectionView.frame.size.width/4.15, height: collectionView.frame.size.height/6)
     }
 }
