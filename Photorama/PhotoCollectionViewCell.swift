@@ -12,7 +12,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet weak var ViewCountLabel: UILabel!
-  
+    @IBOutlet weak var iconImage: UIImageView!
+    
     var photoDescription: String?
     
     override func layoutSubviews() {

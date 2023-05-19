@@ -139,9 +139,6 @@ class PhotosViewController: UIViewController, UICollectionViewDelegate {
                 destinationVC.store = store
                 destinationVC.favoriteDidTap = { [weak self] in
                     self?.didUpdateFavorite()
-//                    destinationVC.didViewed = { [weak self] in
-//                        self?.didViewed()
-//                    }
                 }
             }
         default:

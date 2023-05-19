@@ -41,8 +41,10 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
         let photo = photos[indexPath.row]
         cell.photoDescription = photo.title
         cell.update(displaying: nil)
-        cell.ViewCountLabel.text = "viewed: \(photo.viewCount)"
-        //cell.ViewCountLabel.text = "viewed: 32767" // test display layout for maximum view times
+        
+        cell.iconImage.image = UIImage(systemName: "eye.fill")
+       cell.ViewCountLabel.text = "\(photo.viewCount)"
+      //  cell.ViewCountLabel.text = "32767" // test display layout for maximum view times
         return cell
     }
     
